@@ -24,11 +24,17 @@ jobs:
             libtool
             pkg-config
 
+      - name: Add MSYS2 to PATH
+        run: echo "::add-path::C:/msys64/usr/bin"
+
       - name: Install dependencies
+        shell: msys2 {0}
         run: |
+          pacman -Syu --noconfirm
           pacman -S --noconfirm mingw-w64-x86_64-zlib mingw-w64-x86_64-openssl
 
       - name: Build Telegram Bot API
+        shell: msys2 {0}
         run: |
           git clone --recursive https://github.com/tdlib/telegram-bot-api.git
           cd telegram-bot-api
