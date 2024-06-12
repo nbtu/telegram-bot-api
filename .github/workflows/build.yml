@@ -1,0 +1,46 @@
+name: Build Telegram Bot API
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          install: >-
+            base-devel
+            mingw-w64-x86_64-toolchain
+            git
+            make
+            autoconf
+            automake
+            libtool
+            pkg-config
+
+      - name: Install dependencies
+        run: |
+          pacman -S --noconfirm mingw-w64-x86_64-zlib mingw-w64-x86_64-openssl
+
+      - name: Build Telegram Bot API
+        run: |
+          git clone --recursive https://github.com/tdlib/telegram-bot-api.git
+          cd telegram-bot-api
+          mkdir build
+          cd build
+          cmake -G "MSYS Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+          cmake --build . --target install
+
+      - name: Archive build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: telegram-bot-api
+          path: |
+            telegram-bot-api/build/bin/telegram-bot-api.exe
+            telegram-bot-api/build/bin/libtdjson.dll
