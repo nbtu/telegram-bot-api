@@ -25,7 +25,7 @@ jobs:
             pkg-config
 
       - name: Add MSYS2 to PATH
-        run: echo "::add-path::C:/msys64/usr/bin"
+        run: echo "C:/msys64/usr/bin" >> $GITHUB_PATH
 
       - name: Install dependencies
         shell: msys2 {0}
