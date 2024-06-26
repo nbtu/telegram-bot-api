@@ -54,12 +54,12 @@ jobs:
 
     - name: List built files
       run: |
-        dir build\..\bin
+        dir build\Release\
 
     - name: Publish Artifacts
       if: success()
       uses: actions/upload-artifact@v2
       with:
         name: telegram-bot-api
-        path: bin
+        path: build\Release
 
