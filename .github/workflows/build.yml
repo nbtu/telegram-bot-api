@@ -36,5 +36,6 @@ jobs:
 
     - name: List built files
       run: |
-        dir telegram-bot-api\bin\telegram-bot-api*
+        dir build\bin
+        dir telegram-bot-api\bin
 
