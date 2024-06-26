@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-2019
+    runs-on: windows-2019  # 使用 Windows Server 2019 以支持 Windows 7 兼容性
 
     steps:
     - name: Checkout repository
@@ -24,10 +24,10 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-vcpkg-
 
-
     - name: Set up vcpkg
       run: |
-        git clone https://github.com/Microsoft/vcpkg.git
+        rd /s /q vcpkg  # 删除已存在的 vcpkg 文件夹
+        git clone https://github.com/Microsoft/vcpkg.git vcpkg
         .\vcpkg\bootstrap-vcpkg.bat
 
     - name: Install dependencies
@@ -38,7 +38,9 @@ jobs:
       uses: actions/cache@v2
       with:
         path: build
-        key: build-${{ runner.os }}
+        key: ${{ runner.os }}-build-${{ hashFiles('**/CMakeLists.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-build-
 
     - name: Configure CMake
       run: |
@@ -48,8 +50,7 @@ jobs:
 
     - name: Build Telegram Bot API
       run: |
-        cd build
-        cmake --build . --target install --config Release
+        cmake --build build --config Release
 
     - name: List built files
       run: |
