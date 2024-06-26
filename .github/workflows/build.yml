@@ -38,9 +38,10 @@ jobs:
       run: |
         dir build\..\bin
 
-    - name: Push changes
-      id: push
-      uses: ad-m/github-push-action@master
+    - name: Publish Artifacts
+      if: success()
+      uses: actions/upload-artifact@v2
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-      continue-on-error: true
+        name: telegram-bot-api
+        path: build\..\bin
+
