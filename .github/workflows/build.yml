@@ -20,6 +20,7 @@ jobs:
         path: |
           vcpkg/vcpkg.exe
           vcpkg/packages
+      key: ${{ runner.os }}-vcpkg-${{ hashFiles('**/vcpkg.json') }}  
 
     - name: Set up vcpkg
       run: |
