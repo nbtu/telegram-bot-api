@@ -26,7 +26,7 @@ jobs:
 
     - name: Set up vcpkg
       run: |
-        rd /s /q vcpkg  # 删除已存在的 vcpkg 文件夹
+        Remove-Item -Recurse -Force vcpkg  # 删除已存在的 vcpkg 文件夹
         git clone https://github.com/Microsoft/vcpkg.git vcpkg
         .\vcpkg\bootstrap-vcpkg.bat
 
