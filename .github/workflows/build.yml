@@ -38,3 +38,13 @@ jobs:
       run: |
         dir build\..\bin
 
+    - name: Upload to GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          telegram-bot-api/bin/telegram-bot-api.exe
+          telegram-bot-api/bin/libcrypto-3-x64.dll
+          telegram-bot-api/bin/libssl-3-x64.dll
+          telegram-bot-api/bin/zlib1.dll
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
